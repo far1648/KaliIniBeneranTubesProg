@@ -2,15 +2,27 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [SerializeField]float moveSpeed = 5f;
+    Rigidbody2D Rb;
+    Vector2 movementInput;
     void Start()
     {
-        
+        Rb = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        movementInput.x = Input.GetAxisRaw("Horizontal");
+        movementInput.y = Input.GetAxisRaw("Vertical");
+    }
+
+    void FixedUpdate()
+    {
+        Move();
+    }
+
+    void Move()
+    {
+        Rb.MovePosition(Rb.position + movementInput * moveSpeed * Time.fixedDeltaTime);
     }
 }
