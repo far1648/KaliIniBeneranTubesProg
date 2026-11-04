@@ -229,26 +229,12 @@ public class GenerateMaze : MonoBehaviour
 
     Reset();
 
-    RemoveRoomWall(0, 0, Room.Directions.BOTTOM);
-
-    RemoveRoomWall(numX - 1, numY - 1, Room.Directions.RIGHT);
-
     stack.Push(rooms[0, 0]);
 
-    StartCoroutine(Coroutine_Generate());
-  }
-
-  IEnumerator Coroutine_Generate()
-  {
-    generating = true;
-    bool flag = false;
-    while(!flag)
+    while (!GenerateStep())
     {
-      flag = GenerateStep();
-      yield return new WaitForSeconds(0f);
+      GenerateStep();
     }
-
-    generating = false;
   }
 
   private void Reset()
