@@ -11,18 +11,20 @@ public class GenerateMaze : MonoBehaviour
   Room[,] rooms = null;
 
   [SerializeField]
-  int numX = 10;
+  public int numX = 10;
   [SerializeField]
-  int numY = 10;
+  public int numY = 10;
 
   // The room width and height.
-  float roomWidth;
-  float roomHeight;
+  public float roomWidth;
+  public float roomHeight;
 
   // The stack for backtracking.
   Stack<Room> stack = new Stack<Room>();
 
   bool generating = false;
+
+  [SerializeField] StarSpawner starSpawner;
 
   private void GetRoomSize()
   {
@@ -231,6 +233,11 @@ public class GenerateMaze : MonoBehaviour
     while (!GenerateStep())
     {
       GenerateStep();
+    }
+
+    if (starSpawner != null)
+    {
+      starSpawner.Spawn();
     }
   }
 
