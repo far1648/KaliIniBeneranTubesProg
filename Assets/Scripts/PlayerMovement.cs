@@ -47,7 +47,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Move()
     {
-        Rb.MovePosition(Rb.position + movementInput.normalized * moveSpeed * Time.fixedDeltaTime);
+        Rb.linearVelocity = new Vector2(movementInput.x, movementInput.y).normalized * moveSpeed;
     }
 
     void Animate()
