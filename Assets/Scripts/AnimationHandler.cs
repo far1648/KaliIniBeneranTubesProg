@@ -14,9 +14,9 @@ public class PlayerAnimationHandler : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if (this.TryGetComponent<Animation>(out Animation x))
+        if (TryGetComponent<Animation>(out Animation x))
         {
-            animClass = this.GetComponent<Animation>();
+            animClass = GetComponent<Animation>();
             hasAnimComp = true;
         }
 
