@@ -1,10 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor;
-using UnityEditor.Experimental.GraphView;
-using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 
 public class GenerateMaze : MonoBehaviour
@@ -228,6 +223,8 @@ public class GenerateMaze : MonoBehaviour
     if (generating) return;
 
     Reset();
+    
+    rooms[0, 0].visited = true;
 
     stack.Push(rooms[0, 0]);
 
