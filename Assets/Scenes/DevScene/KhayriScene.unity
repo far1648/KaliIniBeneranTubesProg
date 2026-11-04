@@ -305,6 +305,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   moveSpeed: 5
+  animatedSprite: {fileID: 1457685434}
 --- !u!50 &456438293
 Rigidbody2D:
   serializedVersion: 5
@@ -342,8 +343,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1457685435}
   - component: {fileID: 1457685437}
-  - component: {fileID: 1457685438}
-  - component: {fileID: 1457685439}
+  - component: {fileID: 1457685440}
   m_Layer: 0
   m_Name: AnimationObject
   m_TagString: Untagged
@@ -426,38 +426,28 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
---- !u!111 &1457685438
-Animation:
+--- !u!95 &1457685440
+Animator:
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1457685434}
   m_Enabled: 1
-  serializedVersion: 4
-  m_Animation: {fileID: 7400000, guid: 2dc8c745d1bc54f4c80ec2e20b1401e7, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: 41e6fc41d948286428c2538a8df68cca, type: 2}
-  - {fileID: 7400000, guid: 5155fe0e1beca0a49a0d2bfb314556c3, type: 2}
-  - {fileID: 7400000, guid: 2dc8c745d1bc54f4c80ec2e20b1401e7, type: 2}
-  - {fileID: 7400000, guid: e97b382aa3788fc4f9bed93fbf5798d6, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 0
-  m_AnimatePhysics: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 57147def0c509894487d90567417ec4e, type: 2}
+  m_CullingMode: 0
   m_UpdateMode: 0
-  m_CullingType: 0
---- !u!114 &1457685439
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1457685434}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd48df1c4f448124599effb2b76c9c6a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
