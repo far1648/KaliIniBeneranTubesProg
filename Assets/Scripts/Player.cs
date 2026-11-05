@@ -8,8 +8,7 @@ public class Player : MonoBehaviour
     private bool _hasRB = false;
     
     Vector2 movementInput;
-    [SerializeField] private int starCount = 0;
-    
+    [SerializeField] public int starCount = 0;
     
     // Animations
     [SerializeField] private GameObject animatedSprite;
@@ -87,6 +86,8 @@ public class Player : MonoBehaviour
         {
             _animator.Play("Idle");
         }
+    }
+
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Star")
@@ -94,5 +95,4 @@ public class Player : MonoBehaviour
             starCount++;
         }
     }
-}
 }
