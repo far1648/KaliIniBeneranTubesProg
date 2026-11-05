@@ -6,11 +6,14 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/UIUX/Dump/UIUX.unity
-    guid: 35e6d2dc2d3696246b44a7c633976ca4
+    path: Assets/Scenes/UIUX.unity
+    guid: 26022041dfaf1c14e9b032f26a7467e8
   - enabled: 1
     path: Assets/Scenes/MainScene.unity
     guid: 37a0e5956bd5e4449aaa6cf492f12bd3
+  - enabled: 0
+    path: Assets/UIUX/Dump/UIUX.unity
+    guid: 35e6d2dc2d3696246b44a7c633976ca4
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
