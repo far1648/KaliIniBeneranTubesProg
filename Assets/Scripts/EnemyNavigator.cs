@@ -82,7 +82,6 @@ public class EnemyNavigator : MonoBehaviour
         lastPos = (Vector2)transform.position;
         if (Mathf.Abs(deltaPos.x) > Mathf.Abs(deltaPos.y))
         {
-            print("moving x");
             if (deltaPos.x < 0)
             {
                 _animator.Play("Right");
@@ -93,7 +92,6 @@ public class EnemyNavigator : MonoBehaviour
         }
         else if (Mathf.Abs(deltaPos.x) < Mathf.Abs(deltaPos.y))
         {
-            print("moving y");
             if (deltaPos.y < 0)
             {
                 _animator.Play("Up");
