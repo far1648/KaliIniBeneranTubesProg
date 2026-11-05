@@ -180,6 +180,12 @@ public class Player : MonoBehaviour
         if (collision.gameObject.tag == "Star")
         {
             starCount++;
+            Heal();
+        }
+
+        if (collision.gameObject.tag == "Enemy")
+        {
+            TakeDamage();
         }
     }
 }
