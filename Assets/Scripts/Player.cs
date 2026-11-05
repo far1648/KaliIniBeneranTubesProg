@@ -58,7 +58,6 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-
         // HP Systems
         if (!Dead)
         {
@@ -181,6 +180,12 @@ public class Player : MonoBehaviour
         if (collision.gameObject.tag == "Star")
         {
             starCount++;
+            Heal();
+        }
+
+        if (collision.gameObject.tag == "Enemy")
+        {
+            TakeDamage();
         }
     }
 }
