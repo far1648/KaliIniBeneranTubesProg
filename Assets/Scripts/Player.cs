@@ -4,10 +4,14 @@ using Unity.Mathematics;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField]float moveSpeed = 5f;
+    // --- AUDIO ADDITION ---
+    private PlayerAudio playerAudio;
+    // ----------------------
+
+    [SerializeField] float moveSpeed = 5f;
     Rigidbody2D Rb;
     private bool _hasRB = false;
-    
+
     Vector2 movementInput;
     [SerializeField] public int starCount = 0;
 
@@ -21,15 +25,18 @@ public class Player : MonoBehaviour
     private float blinkInterval = .1f;
     private bool isIFrame = false;
     private float currentIFrameSeconds = 0f;
-    
+
     // Animations
     [SerializeField] private GameObject animatedSprite;
 
     private bool hasAnimator = false;
     private Animator _animator;
-    
+
     void Start()
     {
+        // --- AUDIO ADDITION ---
+        playerAudio = GetComponent<PlayerAudio>();
+
         if (TryGetComponent(out Rigidbody2D x))
         {
             Rb = x;
@@ -65,7 +72,7 @@ public class Player : MonoBehaviour
             {
                 IFrameVoid();
             }
-            
+
             // Animations
             if (hasAnimator)
             {
@@ -79,31 +86,28 @@ public class Player : MonoBehaviour
                 }
                 Animate();
             }
-            
+
             // Player movement
             if (_hasRB)
             {
                 Move();
             }
-            
+
             // When HP <= 0, dead.
             if (HP <= 0)
             {
                 Die();
             }
-            
         }
-        
     }
 
     void Move()
     {
         Rb.linearVelocity = new Vector2(movementInput.x, movementInput.y).normalized * moveSpeed;
     }
-    
+
     void Animate()
     {
-        
         if (Mathf.Abs(movementInput.x) > 0)
         {
             _animator.speed = 1f;
@@ -111,15 +115,18 @@ public class Player : MonoBehaviour
             {
                 _animator.Play("Left");
                 return;
-            } _animator.Play("Right");
-        } else if (MathF.Abs(movementInput.y) > 0)
+            }
+            _animator.Play("Right");
+        }
+        else if (MathF.Abs(movementInput.y) > 0)
         {
             _animator.speed = 1f;
             if (movementInput.y < 0)
             {
                 _animator.Play("Down");
                 return;
-            } _animator.Play("Up");
+            }
+            _animator.Play("Up");
         }
         else
         {
@@ -129,19 +136,27 @@ public class Player : MonoBehaviour
 
     private void Die()
     {
+        // --- AUDIO ADDITION ---
+        if (playerAudio != null) playerAudio.PlayDieSound();
+        // ----------------------
+
         maxHP = 0;
         movementInput = Vector2.zero;
         Move();
         Animate();
         animatedSprite.GetComponent<SpriteRenderer>().color = Color.red;
-        
+
         Dead = true;
     }
 
-    public void TakeDamage(int dmg=1)
+    public void TakeDamage(int dmg = 1)
     {
         if (!isIFrame && !Dead)
         {
+            // --- AUDIO ADDITION ---
+            if (playerAudio != null) playerAudio.PlayHitSound();
+            // ----------------------
+
             HP -= dmg;
             isIFrame = true;
         }
@@ -149,7 +164,7 @@ public class Player : MonoBehaviour
 
     private void IFrameVoid()
     {
-        // Invincibility Frames after damage
+        // Invincibility Frames after damage    
         if (currentIFrameSeconds >= iFrameSeconds)
         {
             isIFrame = false;
@@ -159,14 +174,14 @@ public class Player : MonoBehaviour
         else
         {
             currentIFrameSeconds += Time.deltaTime;
-            if ((int) Mathf.Round(currentIFrameSeconds*100) % (int) Mathf.Round(blinkInterval*100) == 0)
+            if ((int)Mathf.Round(currentIFrameSeconds * 100) % (int)Mathf.Round(blinkInterval * 100) == 0)
             {
                 charTranslucent = !charTranslucent;
             }
         }
     }
 
-    public void Heal(int healing=1)
+    public void Heal(int healing = 1)
     {
         HP += healing;
         if (HP > maxHP)
@@ -179,6 +194,9 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.tag == "Star")
         {
+            // --- AUDIO ADDITION ---
+            if (playerAudio != null) playerAudio.PlayStarSound();
+
             starCount++;
             Heal();
         }
