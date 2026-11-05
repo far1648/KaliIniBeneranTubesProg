@@ -66,16 +66,16 @@ public class Spawner : MonoBehaviour
     {
         while (starCount > 0)
         {
-            x = Random.Range(0, xMax);
-            y = Random.Range(0, yMax);
+            x = UnityEngine.Random.Range(0, xMax);
+            y = UnityEngine.Random.Range(0, yMax);
 
             Vector2Int cell = new Vector2Int(x,y);
 
             while ((x < xMax/2 && y < yMax/2) || used.Contains(cell))
             {
                 used.Add(cell);
-                x = Random.Range(0, generateMaze.numX);
-                y = Random.Range(0, generateMaze.numY);
+                x = UnityEngine.Random.Range(0, generateMaze.numX);
+                y = UnityEngine.Random.Range(0, generateMaze.numY);
                 cell = new Vector2Int(x, y);
             }
 
@@ -98,7 +98,7 @@ public class Spawner : MonoBehaviour
             new Vector2Int(xMax-1, yMax - 1),
         };
 
-        Vector2Int cell = corners[Random.Range(0, 3)];
+        Vector2Int cell = corners[UnityEngine.Random.Range(0, 3)];
 
         Instantiate(doorPrefab, new Vector2(cell.x * w, cell.y * h), Quaternion.identity);
         SpawnEnemy(x, y);
