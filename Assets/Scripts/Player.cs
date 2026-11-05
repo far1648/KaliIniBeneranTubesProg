@@ -1,14 +1,14 @@
 using UnityEngine;
 using System;
 using Unity.Mathematics;
-using System.Collections;
-
 public class Player : MonoBehaviour
 {
-    [SerializeField]float moveSpeed = 5f;
+    private PlayerAudio playerAudio; // Audio addition
+
+    [SerializeField] float moveSpeed = 5f;
     Rigidbody2D Rb;
     private bool _hasRB = false;
-    
+
     Vector2 movementInput;
     [SerializeField] public int starCount = 0;
 
@@ -22,18 +22,17 @@ public class Player : MonoBehaviour
     private float blinkInterval = .1f;
     private bool isIFrame = false;
     private float currentIFrameSeconds = 0f;
-    
+
     // Animations
     [SerializeField] private GameObject animatedSprite;
 
     private bool hasAnimator = false;
     private Animator _animator;
-    [SerializeField] float flashDuration = 0.15f;
-    private SpriteRenderer _sr;
-    private Coroutine flashRoutine;
-    
+
     void Start()
     {
+        playerAudio = GetComponent<PlayerAudio>(); // Audio addition
+
         if (TryGetComponent(out Rigidbody2D x))
         {
             Rb = x;
@@ -52,8 +51,6 @@ public class Player : MonoBehaviour
         }
 
         HP = maxHP;
-
-        _sr = animatedSprite.GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -71,7 +68,7 @@ public class Player : MonoBehaviour
             {
                 IFrameVoid();
             }
-            
+
             // Animations
             if (hasAnimator)
             {
@@ -85,31 +82,31 @@ public class Player : MonoBehaviour
                 }
                 Animate();
             }
-            
+
             // Player movement
             if (_hasRB)
             {
                 Move();
             }
-            
+
             // When HP <= 0, dead.
             if (HP <= 0)
             {
                 Die();
             }
-            
+
         }
-        
+
     }
 
     void Move()
     {
         Rb.linearVelocity = new Vector2(movementInput.x, movementInput.y).normalized * moveSpeed;
     }
-    
+
     void Animate()
     {
-        
+
         if (Mathf.Abs(movementInput.x) > 0)
         {
             _animator.speed = 1f;
@@ -117,15 +114,18 @@ public class Player : MonoBehaviour
             {
                 _animator.Play("Left");
                 return;
-            } _animator.Play("Right");
-        } else if (MathF.Abs(movementInput.y) > 0)
+            }
+            _animator.Play("Right");
+        }
+        else if (MathF.Abs(movementInput.y) > 0)
         {
             _animator.speed = 1f;
             if (movementInput.y < 0)
             {
                 _animator.Play("Down");
                 return;
-            } _animator.Play("Up");
+            }
+            _animator.Play("Up");
         }
         else
         {
@@ -135,29 +135,31 @@ public class Player : MonoBehaviour
 
     private void Die()
     {
+        if (playerAudio != null) playerAudio.PlayDieSound(); // Audio addition
+
         maxHP = 0;
         movementInput = Vector2.zero;
         Move();
         Animate();
-        if (flashRoutine!=null) StopCoroutine(flashRoutine);
         animatedSprite.GetComponent<SpriteRenderer>().color = Color.red;
-        
+
         Dead = true;
     }
 
-    public void TakeDamage(int dmg=1)
+    public void TakeDamage(int dmg = 1)
     {
         if (!isIFrame && !Dead)
         {
+            if (playerAudio != null) playerAudio.PlayHitSound(); // Audio addition
+
             HP -= dmg;
             isIFrame = true;
-            Flash(Color.red);
         }
     }
 
     private void IFrameVoid()
     {
-        // Invincibility Frames after damage
+        // Invincibility Frames after damage    
         if (currentIFrameSeconds >= iFrameSeconds)
         {
             isIFrame = false;
@@ -167,24 +169,28 @@ public class Player : MonoBehaviour
         else
         {
             currentIFrameSeconds += Time.deltaTime;
-            if ((int) Mathf.Round(currentIFrameSeconds*100) % (int) Mathf.Round(blinkInterval*100) == 0)
+            if ((int)Mathf.Round(currentIFrameSeconds * 100) % (int)Mathf.Round(blinkInterval * 100) == 0)
             {
                 charTranslucent = !charTranslucent;
             }
         }
     }
 
-    public void Heal(int healing=1)
+    public void Heal(int healing = 1)
     {
-        int before = HP;
-        HP = Mathf.Min(HP + healing, maxHP);
-        if (HP > before) Flash(new Color(0.4f, 1f, 0.4f));
+        HP += healing;
+        if (HP > maxHP)
+        {
+            HP = maxHP;
+        }
     }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Star")
         {
+            if (playerAudio != null) playerAudio.PlayStarSound(); // Audio addition
+
             starCount++;
             Heal();
         }
@@ -193,20 +199,5 @@ public class Player : MonoBehaviour
         {
             TakeDamage();
         }
-    }
-
-    void Flash(Color color)
-    {
-        if (_sr == null || Dead) return;
-        if (flashRoutine != null) StopCoroutine(flashRoutine);
-        flashRoutine = StartCoroutine(FlashRoutine(color));
-    }
-
-    IEnumerator FlashRoutine(Color color)
-    {
-        _sr.color = color;
-        yield return new WaitForSeconds(flashDuration);
-        _sr.color = Color.white;
-        flashRoutine = null;
     }
 }
