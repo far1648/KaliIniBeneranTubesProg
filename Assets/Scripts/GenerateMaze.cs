@@ -24,7 +24,7 @@ public class GenerateMaze : MonoBehaviour
 
   bool generating = false;
 
-  [SerializeField] StarSpawner starSpawner;
+  [SerializeField] Spawner spawner;
 
   private void GetRoomSize()
   {
@@ -235,9 +235,9 @@ public class GenerateMaze : MonoBehaviour
       GenerateStep();
     }
 
-    if (starSpawner != null)
+    if (spawner != null)
     {
-      starSpawner.Spawn();
+      spawner.Spawn();
     }
   }
 

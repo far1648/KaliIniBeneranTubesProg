@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StarSpawner : MonoBehaviour
+public class Spawner : MonoBehaviour
 {
     [SerializeField] GameObject starPrefab;
     [SerializeField] int starCount = 3;
