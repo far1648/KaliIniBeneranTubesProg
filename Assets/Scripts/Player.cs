@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using Unity.Mathematics;
+using System.Collections;
 
 public class Player : MonoBehaviour
 {
@@ -27,6 +28,9 @@ public class Player : MonoBehaviour
 
     private bool hasAnimator = false;
     private Animator _animator;
+    [SerializeField] float flashDuration = 0.15f;
+    private SpriteRenderer _sr;
+    private Coroutine flashRoutine;
     
     void Start()
     {
@@ -48,6 +52,8 @@ public class Player : MonoBehaviour
         }
 
         HP = maxHP;
+
+        _sr = animatedSprite.GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -133,6 +139,7 @@ public class Player : MonoBehaviour
         movementInput = Vector2.zero;
         Move();
         Animate();
+        if (flashRoutine!=null) StopCoroutine(flashRoutine);
         animatedSprite.GetComponent<SpriteRenderer>().color = Color.red;
         
         Dead = true;
@@ -144,6 +151,7 @@ public class Player : MonoBehaviour
         {
             HP -= dmg;
             isIFrame = true;
+            Flash(Color.red);
         }
     }
 
@@ -168,11 +176,9 @@ public class Player : MonoBehaviour
 
     public void Heal(int healing=1)
     {
-        HP += healing;
-        if (HP > maxHP)
-        {
-            HP = maxHP;
-        }
+        int before = HP;
+        HP = Mathf.Min(HP + healing, maxHP);
+        if (HP > before) Flash(new Color(0.4f, 1f, 0.4f));
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -187,5 +193,20 @@ public class Player : MonoBehaviour
         {
             TakeDamage();
         }
+    }
+
+    void Flash(Color color)
+    {
+        if (_sr == null || Dead) return;
+        if (flashRoutine != null) StopCoroutine(flashRoutine);
+        flashRoutine = StartCoroutine(FlashRoutine(color));
+    }
+
+    IEnumerator FlashRoutine(Color color)
+    {
+        _sr.color = color;
+        yield return new WaitForSeconds(flashDuration);
+        _sr.color = Color.white;
+        flashRoutine = null;
     }
 }
