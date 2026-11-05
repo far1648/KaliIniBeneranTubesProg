@@ -5,6 +5,7 @@ public class Spawner : MonoBehaviour
 {
     [SerializeField] GameObject starPrefab;
     [SerializeField] GameObject doorPrefab;
+    [SerializeField] GameObject enemyPrefab;
     [SerializeField] int starCount = 3;
     [SerializeField] GenerateMaze generateMaze;
 
@@ -55,4 +56,9 @@ public class Spawner : MonoBehaviour
 
         Instantiate(doorPrefab, new Vector2(cell.x * w, cell.y * h), Quaternion.identity);
     }
-}
+
+    void SpawnEnemy()
+    {
+        Instantiate(enemyPrefab, transform.position, Quaternion.identity);
+    }
+} 
