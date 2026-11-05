@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
 
     // HP section
     [SerializeField] private int maxHP = 4;
-    [SerializeField] private int HP;
+    [SerializeField] public int HP;
     [SerializeField] private float iFrameSeconds = 1.5f;
     [SerializeField] private bool Dead = false;
 

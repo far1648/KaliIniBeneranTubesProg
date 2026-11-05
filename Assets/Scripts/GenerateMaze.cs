@@ -21,11 +21,14 @@ public class GenerateMaze : MonoBehaviour
 
     Stack<Room> stack = new Stack<Room>();
     bool generating = false;
+    [SerializeField] int extraOpenings;
 
     [SerializeField] Spawner spawner;
 
     void Start()
     {
+        extraOpenings = numX*numY/10;
+
         GetRoomSize();
         rooms = new Room[numX, numY];
 
@@ -57,9 +60,7 @@ public class GenerateMaze : MonoBehaviour
 
         roomWidth = maxBounds.x - minBounds.x;
         roomHeight = maxBounds.y - minBounds.y;
-    }
-
-    
+    } 
 
     public void RemoveRoomWall(int x, int y, Room.Directions direction)
     {
@@ -151,13 +152,14 @@ public class GenerateMaze : MonoBehaviour
 
         ResetMaze();
 
-        rooms[0, 0].visited = true;
         stack.Push(rooms[0, 0]);
 
         while (!GenerateStep())
         {
             GenerateStep();
         }
+
+        OpenRandomWalls(extraOpenings);
 
         if (spawner != null)
         {
@@ -203,6 +205,34 @@ public class GenerateMaze : MonoBehaviour
             {
                 neighbors.Add(new RoomNode(new Vector2Int(x, y), this));
             }
+        }
+    }
+
+    void OpenRandomWalls(int count)
+    {
+        List<(int x, int y, Room.Directions dir)> candidates = 
+            new List<(int, int, Room.Directions)>();
+
+        for (int i = 0; i < numX; i++)
+        {
+            for (int j = 0; j < numY; j++)
+            {
+                if (i < numX - 1 && rooms[i, j].GetDirFlag(Room.Directions.RIGHT))
+                    candidates.Add((i, j, Room.Directions.RIGHT));
+                
+                if (j < numY - 1 && rooms[i, j].GetDirFlag(Room.Directions.TOP))
+                    candidates.Add((i, j, Room.Directions.TOP));
+            }
+        }
+
+        count = Mathf.Min(count, candidates.Count);
+        for (int n = 0; n < count; n++)
+        {
+            int pick = UnityEngine.Random.Range(n, candidates.Count);
+            (candidates[n], candidates[pick]) = (candidates[pick], candidates[n]);
+
+            var c = candidates[n];
+            RemoveRoomWall(c.x, c.y, c.dir);
         }
     }
 }
