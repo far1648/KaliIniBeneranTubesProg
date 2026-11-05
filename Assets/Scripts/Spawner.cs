@@ -13,7 +13,7 @@ public class Spawner : MonoBehaviour
 
     HashSet<Vector2Int> used = new HashSet<Vector2Int>();
 
-    public void Spawn()
+    public void SpawnStar()
     {
         w = generateMaze.roomWidth;
         h = generateMaze.roomHeight;
@@ -40,9 +40,19 @@ public class Spawner : MonoBehaviour
             
             starCount--;
         }
-        foreach (Vector2Int cell in used)
+    }
+
+    public void SpawnDoor()
+    {
+        Vector2Int[] corners =
         {
-            Debug.Log(cell);
-        }
+            new Vector2Int(0, yMax - 1),
+            new Vector2Int(xMax-1, 0),
+            new Vector2Int(xMax-1, yMax - 1),
+        };
+
+        Vector2Int cell = corners[Random.Range(0, 3)];
+
+        Instantiate(doorPrefab, new Vector2(cell.x * w, cell.y * h), Quaternion.identity);
     }
 }
