@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
     
     void Start()
     {
-        if (this.TryGetComponent(out Rigidbody2D x))
+        if (TryGetComponent(out Rigidbody2D x))
         {
             Rb = x;
             _hasRB = true;
@@ -29,7 +29,7 @@ public class Player : MonoBehaviour
             _animator = y;
             hasAnimator = true;
         }
-        else if (this.TryGetComponent(out Animator z))
+        else if (TryGetComponent(out Animator z))
         {
             _animator = z;
             hasAnimator = true;
