@@ -17,6 +17,10 @@ public class EnemyNavigator : MonoBehaviour
 
     void Start()
     {
+        if (playerTransform == null)
+        {
+            playerTransform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        }
         // Initialize the A* Pathfinder with Manhattan distance and Euclidean step cost
         pathfinder = new AStarPathfinder(
             (a, b) => Mathf.Abs(a.x - b.x) + Mathf.Abs(a.y - b.y),
