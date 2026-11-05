@@ -28,6 +28,7 @@ public class Player : MonoBehaviour
 
     private bool hasAnimator = false;
     private Animator _animator;
+    [SerializeField] GameObject bloodParticle;
 
     void Start()
     {
@@ -154,6 +155,7 @@ public class Player : MonoBehaviour
 
             HP -= dmg;
             isIFrame = true;
+            Instantiate(bloodParticle, transform.position, Quaternion.identity);
         }
     }
 
