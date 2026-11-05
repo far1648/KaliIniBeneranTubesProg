@@ -13,6 +13,13 @@ public class EnemyNavigator : MonoBehaviour
     private List<Vector3> waypoints = new List<Vector3>();
     private int currentWaypointIndex = 0;
 
+    [Header("Animations")]
+    public GameObject animatedSprite;
+
+    private bool hasAnimator = false;
+    private Animator _animator;
+    private Vector2 lastPos;
+
     private AStarPathfinder pathfinder;
 
     void Start()
@@ -33,6 +40,16 @@ public class EnemyNavigator : MonoBehaviour
             (a, b) => Vector2Int.Distance(a, b)
         );
 
+        if (animatedSprite != null)
+        {
+            if (animatedSprite.TryGetComponent(out Animator a))
+            {
+                _animator = a;
+                hasAnimator = true;
+                lastPos = transform.position;
+            }
+        }
+
         StartCoroutine(TrackPlayerRoutine());
     }
 
@@ -50,6 +67,44 @@ public class EnemyNavigator : MonoBehaviour
         if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
         {
             currentWaypointIndex++;
+        }
+
+        if (hasAnimator)
+        {
+            Animate();
+        }
+    }
+
+    private void Animate()
+    {
+        var deltaPos = lastPos - (Vector2)transform.position;
+        deltaPos = deltaPos.normalized;
+        lastPos = (Vector2)transform.position;
+        if (Mathf.Abs(deltaPos.x) > Mathf.Abs(deltaPos.y))
+        {
+            print("moving x");
+            if (deltaPos.x < 0)
+            {
+                _animator.Play("Right");
+                return;
+            }
+            _animator.Play("Left");
+            return;
+        }
+        else if (Mathf.Abs(deltaPos.x) < Mathf.Abs(deltaPos.y))
+        {
+            print("moving y");
+            if (deltaPos.y < 0)
+            {
+                _animator.Play("Up");
+                return;
+            }
+            _animator.Play("Down");
+            return;
+        }
+        else
+        {
+            _animator.Play("Idle");
         }
     }
 
