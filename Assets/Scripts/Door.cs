@@ -11,6 +11,14 @@ public class Door : MonoBehaviour
         {
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         }
+        if (pintuBuka == null)
+        {
+            pintuBuka = GameObject.Find("OpenDoor");
+        }
+        if (pintuTutup == null)
+        {
+            pintuTutup = GameObject.Find("ClosedDoor");
+        }
     }
 
     void Update()
