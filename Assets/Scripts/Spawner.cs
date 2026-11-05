@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,14 +10,48 @@ public class Spawner : MonoBehaviour
     [SerializeField] int starCount = 3;
     [SerializeField] GenerateMaze generateMaze;
 
+    [SerializeField] Transform playerTransform;
     int x, y, xMax, yMax; 
     float w, h;
 
+    [SerializeField] float timer = 5f;
+    float time = 5f;
+
     HashSet<Vector2Int> used = new HashSet<Vector2Int>();
+
+    void Start()
+    {
+        if (playerTransform == null)
+        {
+            GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        }
+    }
 
     void Update()
     {
-        
+        float playerX = playerTransform.position.x;
+        float playerY = playerTransform.position.y;
+        int playerXIndex = Mathf.FloorToInt(playerX/w);
+        int playerYIndex = Mathf.FloorToInt(playerY/h);
+
+        if (time <= 0)
+        {
+            int x = UnityEngine.Random.Range(0, xMax);
+            int y = UnityEngine.Random.Range(0, yMax);
+            
+            while (Mathf.Abs(x - playerXIndex) < 5 || Mathf.Abs(y - playerYIndex) < 5)
+            {
+                x = UnityEngine.Random.Range(0, xMax);
+                y = UnityEngine.Random.Range(0, yMax);
+            }
+
+            SpawnEnemy(x, y);
+            time = timer;
+        }
+        else
+        {
+            time -= Time.deltaTime;
+        }
     }
 
     public void GetVariableValue()
