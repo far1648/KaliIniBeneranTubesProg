@@ -237,7 +237,8 @@ public class GenerateMaze : MonoBehaviour
 
     if (spawner != null)
     {
-      spawner.Spawn();
+      spawner.SpawnStar();
+      spawner.SpawnDoor();
     }
   }
 
