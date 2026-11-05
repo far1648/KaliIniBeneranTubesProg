@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerAnimationHandler : MonoBehaviour
 {
-    private Animation animClass; // the animation class itself
+    private Animator animClass; // the animation class itself
     private bool hasAnimComp = false; // tells the update() to fire anim functions #1
 
     private bool animPlaying = false;
@@ -14,9 +14,9 @@ public class PlayerAnimationHandler : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if (TryGetComponent<Animation>(out Animation x))
+        if (this.TryGetComponent<Animator>(out Animator x))
         {
-            animClass = GetComponent<Animation>();
+            animClass = x;
             hasAnimComp = true;
         }
 
@@ -40,11 +40,11 @@ public class PlayerAnimationHandler : MonoBehaviour
             {
                 if (Mathf.Abs(deltaPosNorm.x) > Mathf.Abs(deltaPosNorm.y))
                 {
-                    animClass.Play();
+                    animClass.StartPlayback();
                 }
                 else
                 {
-                    animClass.Stop();
+                    animClass.StopPlayback();
                 }
             }
 
@@ -52,23 +52,23 @@ public class PlayerAnimationHandler : MonoBehaviour
             {
                 if (deltaPosNorm.x < 0)
                 {
-                    animClass.clip = getAnimClip("Left.anim");
+                    animClass.Play("Left");
                     return;
-                } animClass.clip = getAnimClip("Right");
+                } animClass.Play("Right");
             }
             else if ((MathF.Abs(deltaPosNorm.x) < MathF.Abs(deltaPosNorm.y)))
             {
                 if (deltaPosNorm.y < 0)
                 {
-                    animClass.clip = getAnimClip("Down");
+                    animClass.Play("Down");
                     return;
-                } animClass.clip = getAnimClip("Up");
+                } animClass.Play("Up");
+            }
+            else
+            {
+                animClass.StopPlayback();
             }
         }
         }
-
-    AnimationClip getAnimClip(string animName)
-    {
-        return animClass.GetClip(animName);
-    } 
+    
 }
