@@ -21,6 +21,12 @@ public class EnemyNavigator : MonoBehaviour
         {
             playerTransform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         }
+
+        if (generateMaze == null)
+        {
+            generateMaze = GameObject.Find("GenerateMaze").GetComponent<GenerateMaze>();
+        }
+
         // Initialize the A* Pathfinder with Manhattan distance and Euclidean step cost
         pathfinder = new AStarPathfinder(
             (a, b) => Mathf.Abs(a.x - b.x) + Mathf.Abs(a.y - b.y),

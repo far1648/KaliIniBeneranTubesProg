@@ -39,6 +39,8 @@ public class Spawner : MonoBehaviour
             
             used.Add(cell);
             
+            SpawnEnemy(x, y);
+            
             starCount--;
         }
     }
@@ -55,10 +57,11 @@ public class Spawner : MonoBehaviour
         Vector2Int cell = corners[Random.Range(0, 3)];
 
         Instantiate(doorPrefab, new Vector2(cell.x * w, cell.y * h), Quaternion.identity);
+        SpawnEnemy(x, y);
     }
 
-    void SpawnEnemy()
+    void SpawnEnemy(int x, int y)
     {
-        Instantiate(enemyPrefab, transform.position, Quaternion.identity);
+        Instantiate(enemyPrefab, new Vector2(x * w, y * h), Quaternion.identity);
     }
 } 
