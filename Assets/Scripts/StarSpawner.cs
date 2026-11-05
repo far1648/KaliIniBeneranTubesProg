@@ -20,8 +20,8 @@ public class StarSpawner : MonoBehaviour
         yMax = generateMaze.numY;
         while (starCount > 0)
         {
-            x = Random.Range(0, generateMaze.numX);
-            y = Random.Range(0, generateMaze.numY);
+            x = Random.Range(0, xMax);
+            y = Random.Range(0, yMax);
 
             Vector2Int cell = new Vector2Int(x,y);
 
@@ -30,6 +30,7 @@ public class StarSpawner : MonoBehaviour
                 used.Add(cell);
                 x = Random.Range(0, generateMaze.numX);
                 y = Random.Range(0, generateMaze.numY);
+                cell = new Vector2Int(x, y);
             }
 
             Instantiate(starPrefab, new Vector3(x * w, y * h, 0), Quaternion.identity);
