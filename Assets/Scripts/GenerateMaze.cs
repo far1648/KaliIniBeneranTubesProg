@@ -151,7 +151,6 @@ public class GenerateMaze : MonoBehaviour
 
         ResetMaze();
 
-        rooms[0, 0].visited = true;
         stack.Push(rooms[0, 0]);
 
         while (!GenerateStep())
