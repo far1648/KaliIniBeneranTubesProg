@@ -256,7 +256,7 @@ BoxCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: f42fa5073893cad4da14fb8a8455cba7, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -301,10 +301,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 456438288}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4c8aab2a687c3d4dbadaa81fe23019e, type: 3}
+  m_Script: {fileID: 11500000, guid: ab5241aaae2758148a1575c669f7c844, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   moveSpeed: 5
+  starCount: 0
   animatedSprite: {fileID: 1457685434}
 --- !u!50 &456438293
 Rigidbody2D:

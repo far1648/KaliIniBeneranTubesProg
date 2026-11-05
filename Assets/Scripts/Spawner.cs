@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -5,38 +6,84 @@ public class Spawner : MonoBehaviour
 {
     [SerializeField] GameObject starPrefab;
     [SerializeField] GameObject doorPrefab;
+    [SerializeField] GameObject enemyPrefab;
     [SerializeField] int starCount = 3;
     [SerializeField] GenerateMaze generateMaze;
 
+    [SerializeField] Transform playerTransform;
     int x, y, xMax, yMax; 
     float w, h;
 
+    [SerializeField] float timer = 5f;
+    float time = 5f;
+
     HashSet<Vector2Int> used = new HashSet<Vector2Int>();
 
-    public void SpawnStar()
+    void Start()
+    {
+        if (playerTransform == null)
+        {
+            playerTransform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        }
+    }
+
+    void Update()
+    {
+        float playerX = playerTransform.position.x;
+        float playerY = playerTransform.position.y;
+        int playerXIndex = Mathf.FloorToInt(playerX/w);
+        int playerYIndex = Mathf.FloorToInt(playerY/h);
+
+        if (time <= 0)
+        {
+            int x = UnityEngine.Random.Range(0, xMax);
+            int y = UnityEngine.Random.Range(0, yMax);
+            
+            while (Mathf.Abs(x - playerXIndex) < 5 || Mathf.Abs(y - playerYIndex) < 5)
+            {
+                x = UnityEngine.Random.Range(0, xMax);
+                y = UnityEngine.Random.Range(0, yMax);
+            }
+
+            SpawnEnemy(x, y);
+            time = timer;
+        }
+        else
+        {
+            time -= Time.deltaTime;
+        }
+    }
+
+    public void GetVariableValue()
     {
         w = generateMaze.roomWidth;
         h = generateMaze.roomHeight;
         xMax = generateMaze.numX;
         yMax = generateMaze.numY;
+    }
+
+    public void SpawnStar()
+    {
         while (starCount > 0)
         {
-            x = Random.Range(0, xMax);
-            y = Random.Range(0, yMax);
+            x = UnityEngine.Random.Range(0, xMax);
+            y = UnityEngine.Random.Range(0, yMax);
 
             Vector2Int cell = new Vector2Int(x,y);
 
             while ((x < xMax/2 && y < yMax/2) || used.Contains(cell))
             {
                 used.Add(cell);
-                x = Random.Range(0, generateMaze.numX);
-                y = Random.Range(0, generateMaze.numY);
+                x = UnityEngine.Random.Range(0, generateMaze.numX);
+                y = UnityEngine.Random.Range(0, generateMaze.numY);
                 cell = new Vector2Int(x, y);
             }
 
             Instantiate(starPrefab, new Vector3(x * w, y * h, 0), Quaternion.identity);
             
             used.Add(cell);
+            
+            SpawnEnemy(x, y);
             
             starCount--;
         }
@@ -51,8 +98,14 @@ public class Spawner : MonoBehaviour
             new Vector2Int(xMax-1, yMax - 1),
         };
 
-        Vector2Int cell = corners[Random.Range(0, 3)];
+        Vector2Int cell = corners[UnityEngine.Random.Range(0, 3)];
 
         Instantiate(doorPrefab, new Vector2(cell.x * w, cell.y * h), Quaternion.identity);
+        SpawnEnemy(x, y);
     }
-}
+
+    void SpawnEnemy(int x, int y)
+    {
+        Instantiate(enemyPrefab, new Vector2(x * w, y * h), Quaternion.identity);
+    }
+} 

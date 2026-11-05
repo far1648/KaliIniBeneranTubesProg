@@ -4,54 +4,61 @@ using UnityEngine;
 
 public class Room : MonoBehaviour
 {
-  public enum Directions
-  {
-    TOP,
-    RIGHT,
-    BOTTOM,
-    LEFT,
-    NONE,
-  }
+    public enum Directions
+    {
+        TOP,
+        RIGHT,
+        BOTTOM,
+        LEFT,
+        NONE,
+    }
 
-  [SerializeField]
-  GameObject topWall;
-  [SerializeField]
-  GameObject rightWall;
-  [SerializeField]
-  GameObject bottomWall;
-  [SerializeField]
-  GameObject leftWall;
+    [SerializeField]
+    GameObject topWall;
+    [SerializeField]
+    GameObject rightWall;
+    [SerializeField]
+    GameObject bottomWall;
+    [SerializeField]
+    GameObject leftWall;
 
-  Dictionary<Directions, GameObject> walls =
-    new Dictionary<Directions, GameObject>();
+    Dictionary<Directions, GameObject> walls =
+      new Dictionary<Directions, GameObject>();
 
-  public Vector2Int Index
-  {
-    get;
-    set;
-  }
+    public Vector2Int Index
+    {
+        get;
+        set;
+    }
 
-  public bool visited { get; set; } = false;
+    public bool visited { get; set; } = false;
 
-  Dictionary<Directions, bool> dirflags =
-    new Dictionary<Directions, bool>();
+    Dictionary<Directions, bool> dirflags =
+      new Dictionary<Directions, bool>();
 
-  private void Awake()
-  {
-    walls[Directions.TOP] = topWall;
-    walls[Directions.RIGHT] = rightWall;
-    walls[Directions.BOTTOM] = bottomWall;
-    walls[Directions.LEFT] = leftWall;
-  }
+    private void Awake()
+    {
+        walls[Directions.TOP] = topWall;
+        walls[Directions.RIGHT] = rightWall;
+        walls[Directions.BOTTOM] = bottomWall;
+        walls[Directions.LEFT] = leftWall;
+    }
 
-  private void SetActive(Directions dir, bool flag)
-  {
-    walls[dir].SetActive(flag);
-  }
+    private void SetActive(Directions dir, bool flag)
+    {
+        walls[dir].SetActive(flag);
+    }
 
-  public void SetDirFlag(Directions dir, bool flag)
-  {
-    dirflags[dir] = flag;
-    SetActive(dir, flag);
-  }
+    public void SetDirFlag(Directions dir, bool flag)
+    {
+        dirflags[dir] = flag;
+        SetActive(dir, flag);
+    }
+
+    public bool GetDirFlag(Directions dir)
+    {
+        if (dirflags.ContainsKey(dir))
+            return dirflags[dir];
+        return true; 
+    }
 }
