@@ -1832,7 +1832,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1060020117}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f6afc9e3d0e3274bbc0e3fe8c909219, type: 3}
+  m_Script: {fileID: 11500000, guid: 94dfef820a901f942a3810dc61b12b58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
   MyMixer: {fileID: 24100000, guid: bb43a370bd811c14ea10f2363eeec7c2, type: 2}
