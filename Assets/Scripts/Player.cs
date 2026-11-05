@@ -1,13 +1,9 @@
 using UnityEngine;
 using System;
 using Unity.Mathematics;
-using System.Collections;
-
 public class Player : MonoBehaviour
 {
-    // --- AUDIO ADDITION ---
-    private PlayerAudio playerAudio;
-    // ----------------------
+    private PlayerAudio playerAudio; // Audio addition
 
     [SerializeField] float moveSpeed = 5f;
     Rigidbody2D Rb;
@@ -35,8 +31,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        // --- AUDIO ADDITION ---
-        playerAudio = GetComponent<PlayerAudio>();
+        playerAudio = GetComponent<PlayerAudio>(); // Audio addition
 
         if (TryGetComponent(out Rigidbody2D x))
         {
@@ -56,8 +51,6 @@ public class Player : MonoBehaviour
         }
 
         HP = maxHP;
-
-        _sr = animatedSprite.GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -101,7 +94,9 @@ public class Player : MonoBehaviour
             {
                 Die();
             }
+
         }
+
     }
 
     void Move()
@@ -111,6 +106,7 @@ public class Player : MonoBehaviour
 
     void Animate()
     {
+
         if (Mathf.Abs(movementInput.x) > 0)
         {
             _animator.speed = 1f;
@@ -139,15 +135,12 @@ public class Player : MonoBehaviour
 
     private void Die()
     {
-        // --- AUDIO ADDITION ---
-        if (playerAudio != null) playerAudio.PlayDieSound();
-        // ----------------------
+        if (playerAudio != null) playerAudio.PlayDieSound(); // Audio addition
 
         maxHP = 0;
         movementInput = Vector2.zero;
         Move();
         Animate();
-        if (flashRoutine!=null) StopCoroutine(flashRoutine);
         animatedSprite.GetComponent<SpriteRenderer>().color = Color.red;
 
         Dead = true;
@@ -157,13 +150,10 @@ public class Player : MonoBehaviour
     {
         if (!isIFrame && !Dead)
         {
-            // --- AUDIO ADDITION ---
-            if (playerAudio != null) playerAudio.PlayHitSound();
-            // ----------------------
+            if (playerAudio != null) playerAudio.PlayHitSound(); // Audio addition
 
             HP -= dmg;
             isIFrame = true;
-            Flash(Color.red);
         }
     }
 
@@ -188,17 +178,18 @@ public class Player : MonoBehaviour
 
     public void Heal(int healing = 1)
     {
-        int before = HP;
-        HP = Mathf.Min(HP + healing, maxHP);
-        if (HP > before) Flash(new Color(0.4f, 1f, 0.4f));
+        HP += healing;
+        if (HP > maxHP)
+        {
+            HP = maxHP;
+        }
     }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Star")
         {
-            // --- AUDIO ADDITION ---
-            if (playerAudio != null) playerAudio.PlayStarSound();
+            if (playerAudio != null) playerAudio.PlayStarSound(); // Audio addition
 
             starCount++;
             Heal();
