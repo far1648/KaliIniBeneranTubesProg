@@ -40,8 +40,6 @@ public class GenerateMaze : MonoBehaviour
                 rooms[i, j] = roomComp;
             }
         }
-
-        SetCamera();
     }
 
     void GetRoomSize()
@@ -60,13 +58,7 @@ public class GenerateMaze : MonoBehaviour
         roomHeight = maxBounds.y - minBounds.y;
     }
 
-    void SetCamera()
-    {
-        Camera mainCam = Camera.main;
-        mainCam.transform.position = new Vector3((numX * roomWidth) / 2f - roomWidth / 2f, (numY * roomHeight) / 2f - roomHeight / 2f, -10f);
-        float maxDim = Mathf.Max(numX * roomWidth, numY * roomHeight);
-        mainCam.orthographicSize = maxDim / 2f + 2f;
-    }
+    
 
     public void RemoveRoomWall(int x, int y, Room.Directions direction)
     {
@@ -175,7 +167,7 @@ public class GenerateMaze : MonoBehaviour
         while (!complete)
         {
             complete = GenerateStep();
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(0f);
         }
 
         generating = false;
