@@ -156,13 +156,14 @@ public class GenerateMaze : MonoBehaviour
 
         while (!GenerateStep())
         {
-        GenerateStep();
+            GenerateStep();
         }
 
         if (spawner != null)
         {
-        spawner.SpawnStar();
-        spawner.SpawnDoor();
+            spawner.GetVariableValue();
+            spawner.SpawnStar();
+            spawner.SpawnDoor();
         }
     }
     void ResetMaze()

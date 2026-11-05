@@ -14,12 +14,21 @@ public class Spawner : MonoBehaviour
 
     HashSet<Vector2Int> used = new HashSet<Vector2Int>();
 
-    public void SpawnStar()
+    void Update()
+    {
+        
+    }
+
+    public void GetVariableValue()
     {
         w = generateMaze.roomWidth;
         h = generateMaze.roomHeight;
         xMax = generateMaze.numX;
         yMax = generateMaze.numY;
+    }
+
+    public void SpawnStar()
+    {
         while (starCount > 0)
         {
             x = Random.Range(0, xMax);
