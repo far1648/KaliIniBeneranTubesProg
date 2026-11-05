@@ -27,7 +27,8 @@ public class GenerateMaze : MonoBehaviour
 
     void Start()
     {
-        extraOpenings = numX*numY/10;
+        Time.timeScale = 1f;
+        extraOpenings = numX*numY/5;
 
         GetRoomSize();
         rooms = new Room[numX, numY];

@@ -5,12 +5,12 @@ public class GameOver : MonoBehaviour
 {
     public void PlayAgain()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene("MainScene");
-        Time.timeScale = 1;
     }
     public void Exit()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene("UIUX");
-        Time.timeScale = 1;
     }
 }
