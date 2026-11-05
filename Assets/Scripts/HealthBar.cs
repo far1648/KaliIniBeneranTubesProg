@@ -1,62 +1,57 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
     //BEHOLD BILION IF ELSE STATEMENT 
-    Player player;
-    [SerializeField] Image health1;
-    [SerializeField] Image health2;
-    [SerializeField] Image health3;
-    [SerializeField] Image health4;
+    [SerializeField] Player player;
+    [SerializeField] Image[] hearts;
     [SerializeField] Sprite fullHealth;
     [SerializeField] Sprite emptyHealth;
-    int health;
+    [SerializeField] Image flashOverlay;
+    [SerializeField] float flashDuration = 0.25f;
+    [SerializeField] float flashAlpha = 0.35f;
+    int lastHealth = -1;
+    Coroutine flashRoutine;
     void Start()
     {
         if (player == null)
-        {
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-        }
     }
 
     void Update()
     {
-        health = player.HP;
-        if (health == 4)
+        int hp = player.HP;
+        if (hp == lastHealth) return;
+
+        Refresh(hp);
+
+        if (lastHealth >= 0)
         {
-            health1.sprite = fullHealth;
-            health2.sprite = fullHealth;
-            health3.sprite = fullHealth;
-            health4.sprite = fullHealth;
+            Color c = hp < lastHealth ? Color.red : Color.green;
+            if (flashRoutine != null) StopCoroutine(flashRoutine);
+            flashRoutine = StartCoroutine(Flash(c));
         }
-        else if (health == 3)
+        lastHealth = hp;
+    }
+
+    void Refresh(int hp)
+    {
+        for (int i = 0; i < hearts.Length; i++)
+            hearts[i].sprite = i < hp ? fullHealth : emptyHealth;
+    }
+
+    IEnumerator Flash(Color c)
+    {
+        float t = 0f;
+        while (t < flashDuration)
         {
-            health1.sprite = fullHealth;
-            health2.sprite = fullHealth;
-            health3.sprite = fullHealth;
-            health4.sprite = emptyHealth;
+            t += Time.deltaTime;
+            float a = Mathf.Lerp(flashAlpha, 0f, t / flashDuration);
+            flashOverlay.color = new Color(c.r, c.g, c.b, a);
+            yield return null;
         }
-        else if (health == 2)
-        {
-            health1.sprite = fullHealth;
-            health2.sprite = fullHealth;
-            health3.sprite = emptyHealth;
-            health4.sprite = emptyHealth;
-        } 
-        else if (health == 1)
-        {
-            health1.sprite = fullHealth;
-            health2.sprite = emptyHealth;
-            health3.sprite = emptyHealth;
-            health4.sprite = emptyHealth;
-        }
-        else if (health == 0)
-        {
-            health1.sprite = emptyHealth;
-            health2.sprite = emptyHealth;
-            health3.sprite = emptyHealth;
-            health4.sprite = emptyHealth;
-        }
+        flashOverlay.color = new Color(c.r, c.g, c.b, 0f);
     }
 }
