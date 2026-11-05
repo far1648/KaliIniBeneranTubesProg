@@ -40,6 +40,7 @@ public class GenerateMaze : MonoBehaviour
                 rooms[i, j] = roomComp;
             }
         }
+        CreateMaze();
     }
 
     void GetRoomSize()
@@ -150,29 +151,16 @@ public class GenerateMaze : MonoBehaviour
 
         ResetMaze();
 
-        RemoveRoomWall(0, 0, Room.Directions.BOTTOM);
-        RemoveRoomWall(numX - 1, numY - 1, Room.Directions.TOP);
-
         rooms[0, 0].visited = true;
         stack.Push(rooms[0, 0]);
 
-        StartCoroutine(CoGenerate());
-    }
-
-    IEnumerator CoGenerate()
-    {
-        generating = true;
-        bool complete = false;
-
-        while (!complete)
+        while (!GenerateStep())
         {
-            complete = GenerateStep();
-            yield return new WaitForSeconds(0f);
+            GenerateStep();
         }
-
-        generating = false;
     }
 
+    
     void ResetMaze()
     {
         for (int i = 0; i < numX; i++)
@@ -185,14 +173,6 @@ public class GenerateMaze : MonoBehaviour
                 rooms[i, j].SetDirFlag(Room.Directions.BOTTOM, true);
                 rooms[i, j].SetDirFlag(Room.Directions.LEFT, true);
             }
-        }
-    }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space) && !generating)
-        {
-            CreateMaze();
         }
     }
 
