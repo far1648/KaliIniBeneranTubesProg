@@ -23,7 +23,7 @@ public class Spawner : MonoBehaviour
     {
         if (playerTransform == null)
         {
-            GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+            playerTransform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         }
     }
 
