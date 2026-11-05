@@ -17,8 +17,8 @@ public class Door : MonoBehaviour
     {
         if (player.starCount == 3)
         {
-            pintuBuka.SetActive(false);
-            pintuTutup.SetActive(true);
+            pintuBuka.SetActive(true);
+            pintuTutup.SetActive(false);
         }
     }
 }
