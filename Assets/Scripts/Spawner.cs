@@ -44,6 +44,15 @@ public class Spawner : MonoBehaviour
 
     public void SpawnDoor()
     {
-        Instantiate(doorPrefab, new Vector2((xMax - 1) * w, (yMax - 1) * h), Quaternion.identity);
+        Vector2Int[] corners =
+        {
+            new Vector2Int(0, yMax - 1),
+            new Vector2Int(xMax-1, 0),
+            new Vector2Int(xMax-1, yMax - 1),
+        };
+
+        Vector2Int cell = corners[Random.Range(0, 3)];
+
+        Instantiate(doorPrefab, new Vector2(cell.x * w, cell.y * h), Quaternion.identity);
     }
 }

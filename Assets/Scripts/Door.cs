@@ -2,15 +2,23 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [SerializeField] Player player;
+    [SerializeField] GameObject pintuBuka;
+    [SerializeField] GameObject pintuTutup;
     void Start()
     {
-        
+        if (player == null)
+        {
+            player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        }
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        if (player.starCount == 3)
+        {
+            pintuBuka.SetActive(false);
+            pintuTutup.SetActive(true);
+        }
     }
 }
