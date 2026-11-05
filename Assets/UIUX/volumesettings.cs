@@ -52,7 +52,7 @@ public class volumesettings : MonoBehaviour
         if (SFXSlider != null)
         {
             SFXSlider.value = PlayerPrefs.GetFloat("sfxVolume", 1f);
-            SetSFXVolume();
+            SetSFXVolume(); 
         }
     }
 }
