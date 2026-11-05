@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using Unity.Mathematics;
 
 public class Player : MonoBehaviour
 {
@@ -9,6 +10,17 @@ public class Player : MonoBehaviour
     
     Vector2 movementInput;
     [SerializeField] public int starCount = 0;
+
+    // HP section
+    [SerializeField] private int maxHP = 4;
+    [SerializeField] private int HP;
+    [SerializeField] private float iFrameSeconds = 1.5f;
+    [SerializeField] private bool Dead = false;
+
+    private bool charTranslucent = false; // for the blinking effect on iFrame
+    private float blinkInterval = .1f;
+    private bool isIFrame = false;
+    private float currentIFrameSeconds = 0f;
     
     // Animations
     [SerializeField] private GameObject animatedSprite;
@@ -34,6 +46,8 @@ public class Player : MonoBehaviour
             _animator = z;
             hasAnimator = true;
         }
+
+        HP = maxHP;
     }
 
     void Update()
@@ -44,22 +58,48 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (_hasRB)
-        {
-            Move();
-        }
 
-        Move();
-        if (hasAnimator)
+        // HP Systems
+        if (!Dead)
         {
-            Animate();
+            if (isIFrame)
+            {
+                IFrameVoid();
+            }
+            
+            // Animations
+            if (hasAnimator)
+            {
+                if (charTranslucent)
+                {
+                    animatedSprite.GetComponent<SpriteRenderer>().enabled = false;
+                }
+                else
+                {
+                    animatedSprite.GetComponent<SpriteRenderer>().enabled = true;
+                }
+                Animate();
+            }
+            
+            // Player movement
+            if (_hasRB)
+            {
+                Move();
+            }
+            
+            // When HP <= 0, dead.
+            if (HP <= 0)
+            {
+                Die();
+            }
+            
         }
+        
     }
 
     void Move()
     {
         Rb.linearVelocity = new Vector2(movementInput.x, movementInput.y).normalized * moveSpeed;
-        Animate();
     }
     
     void Animate()
@@ -85,6 +125,54 @@ public class Player : MonoBehaviour
         else
         {
             _animator.Play("Idle");
+        }
+    }
+
+    private void Die()
+    {
+        maxHP = 0;
+        movementInput = Vector2.zero;
+        Move();
+        Animate();
+        animatedSprite.GetComponent<SpriteRenderer>().color = Color.red;
+        
+        Dead = true;
+    }
+
+    public void TakeDamage(int dmg=1)
+    {
+        if (!isIFrame && !Dead)
+        {
+            HP -= dmg;
+            isIFrame = true;
+        }
+    }
+
+    private void IFrameVoid()
+    {
+        // Invincibility Frames after damage
+        if (currentIFrameSeconds >= iFrameSeconds)
+        {
+            isIFrame = false;
+            currentIFrameSeconds = 0;
+            charTranslucent = false;
+        }
+        else
+        {
+            currentIFrameSeconds += Time.deltaTime;
+            if ((int) Mathf.Round(currentIFrameSeconds*100) % (int) Mathf.Round(blinkInterval*100) == 0)
+            {
+                charTranslucent = !charTranslucent;
+            }
+        }
+    }
+
+    public void Heal(int healing=1)
+    {
+        HP += healing;
+        if (HP > maxHP)
+        {
+            HP = maxHP;
         }
     }
 
