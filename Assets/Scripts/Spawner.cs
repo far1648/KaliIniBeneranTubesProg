@@ -4,6 +4,7 @@ using UnityEngine;
 public class Spawner : MonoBehaviour
 {
     [SerializeField] GameObject starPrefab;
+    [SerializeField] GameObject doorPrefab;
     [SerializeField] int starCount = 3;
     [SerializeField] GenerateMaze generateMaze;
 
