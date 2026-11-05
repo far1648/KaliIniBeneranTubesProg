@@ -17,6 +17,9 @@ public class Player : MonoBehaviour
     private bool hasAnimator = false;
     private Animator _animator;
     
+    Rigidbody2D Rb;
+    Vector2 movementInput;
+    [SerializeField] int starCount = 0;
     void Start()
     {
         if (this.TryGetComponent(out Rigidbody2D x))
@@ -50,6 +53,7 @@ public class Player : MonoBehaviour
             Move();
         }
 
+        Move();
         if (hasAnimator)
         {
             Animate();
@@ -86,8 +90,6 @@ public class Player : MonoBehaviour
         {
             _animator.Play("Idle");
         }
-    }
-
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Star")
@@ -95,4 +97,5 @@ public class Player : MonoBehaviour
             starCount++;
         }
     }
+}
 }

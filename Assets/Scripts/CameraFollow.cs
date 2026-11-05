@@ -7,13 +7,13 @@ public class CameraFollow : MonoBehaviour
 
     public Vector3 offset;
     private Vector3 targetPos;
-    PlayerMovement player;
+    Player player;
     void Start()
     {
         if (target == null) return;
 
         offset = transform.position - target.position;
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
 
     // Update is called once per frame
