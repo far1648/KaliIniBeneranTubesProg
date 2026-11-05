@@ -154,18 +154,17 @@ public class GenerateMaze : MonoBehaviour
         rooms[0, 0].visited = true;
         stack.Push(rooms[0, 0]);
 
-    while (!GenerateStep())
-    {
-      GenerateStep();
-    }
+        while (!GenerateStep())
+        {
+        GenerateStep();
+        }
 
-    if (spawner != null)
-    {
-      spawner.SpawnStar();
-      spawner.SpawnDoor();
+        if (spawner != null)
+        {
+        spawner.SpawnStar();
+        spawner.SpawnDoor();
+        }
     }
-
-    
     void ResetMaze()
     {
         for (int i = 0; i < numX; i++)
@@ -179,6 +178,7 @@ public class GenerateMaze : MonoBehaviour
                 rooms[i, j].SetDirFlag(Room.Directions.LEFT, true);
             }
         }
+
     }
 
     public List<Node<Vector2Int>> GetNeighbors(int xx, int yy)
