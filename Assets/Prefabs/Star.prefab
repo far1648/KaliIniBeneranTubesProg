@@ -152,3 +152,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6760408494e8d8f43836a891d3979903, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Star
+  collectEffect: {fileID: 5166658582419755999, guid: de948ecdcce278c48a3cb8aca532f46d, type: 3}
