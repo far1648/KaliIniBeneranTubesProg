@@ -5,6 +5,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]float moveSpeed = 5f;
     Rigidbody2D Rb;
     Vector2 movementInput;
+    int starCount = 0;
     void Start()
     {
         Rb = GetComponent<Rigidbody2D>();
@@ -24,5 +25,13 @@ public class PlayerMovement : MonoBehaviour
     void Move()
     {
         Rb.linearVelocity = new Vector2(movementInput.x, movementInput.y).normalized * moveSpeed;
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Star")
+        {
+            starCount++;
+        }
     }
 }
