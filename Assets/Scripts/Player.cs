@@ -58,7 +58,6 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-
         // HP Systems
         if (!Dead)
         {
