@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
     private bool _hasRB = false;
     
     Vector2 movementInput;
-    [SerializeField] int starCount = 0;
+    [SerializeField] private int starCount = 0;
     
     
     // Animations
@@ -17,9 +17,6 @@ public class Player : MonoBehaviour
     private bool hasAnimator = false;
     private Animator _animator;
     
-    Rigidbody2D Rb;
-    Vector2 movementInput;
-    [SerializeField] int starCount = 0;
     void Start()
     {
         if (this.TryGetComponent(out Rigidbody2D x))
