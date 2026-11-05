@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 279989321}
   - component: {fileID: 279989320}
   m_Layer: 5
-  m_Name: 1 (1)
+  m_Name: 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -550,6 +550,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 673591080}
+  - component: {fileID: 673591081}
   m_Layer: 5
   m_Name: HealthBar
   m_TagString: Untagged
@@ -573,13 +574,37 @@ RectTransform:
   - {fileID: 279989319}
   - {fileID: 1143716583}
   - {fileID: 676462462}
+  - {fileID: 895828044}
   m_Father: {fileID: 283919018}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 50, y: 50}
+  m_SizeDelta: {x: 120, y: 30}
   m_Pivot: {x: 0, y: 1}
+--- !u!114 &673591081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 673591079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb5a613d305892e48b8b6e92848beacf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthBar
+  player: {fileID: 0}
+  hearts:
+  - {fileID: 2055235135}
+  - {fileID: 279989320}
+  - {fileID: 1143716584}
+  - {fileID: 676462463}
+  fullHealth: {fileID: -6176110321221878314, guid: 8b730826c846b844fa5cc74fc6557ca1, type: 3}
+  emptyHealth: {fileID: 6518848541423996108, guid: 8b730826c846b844fa5cc74fc6557ca1, type: 3}
+  flashOverlay: {fileID: 895828045}
+  flashDuration: 0.25
+  flashAlpha: 0.35
 --- !u!1 &675910367
 GameObject:
   m_ObjectHideFlags: 0
@@ -643,7 +668,7 @@ GameObject:
   - component: {fileID: 676462464}
   - component: {fileID: 676462463}
   m_Layer: 5
-  m_Name: 1 (3)
+  m_Name: 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -774,6 +799,7 @@ MonoBehaviour:
   iFrameSeconds: 1.5
   Dead: 0
   animatedSprite: {fileID: 495476214}
+  flashDuration: 0.15
 --- !u!4 &682487938
 Transform:
   m_ObjectHideFlags: 0
@@ -1148,7 +1174,7 @@ GameObject:
   - component: {fileID: 1143716585}
   - component: {fileID: 1143716584}
   m_Layer: 5
-  m_Name: 1 (2)
+  m_Name: 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
