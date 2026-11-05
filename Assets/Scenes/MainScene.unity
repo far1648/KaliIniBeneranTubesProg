@@ -1692,7 +1692,7 @@ MonoBehaviour:
   iFrameSeconds: 1.5
   Dead: 0
   animatedSprite: {fileID: 1109195168}
-  bloodParticle: {fileID: 0}
+  bloodParticle: {fileID: 5166658582419755999, guid: 84a7c3d7dc94135409ebb18d458c3f55, type: 3}
 --- !u!4 &1913202347
 Transform:
   m_ObjectHideFlags: 0
