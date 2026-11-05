@@ -52,6 +52,7 @@ public class Player : MonoBehaviour
         }
 
         HP = maxHP;
+
     }
 
     void Update()
