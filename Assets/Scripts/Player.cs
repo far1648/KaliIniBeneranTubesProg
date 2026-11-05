@@ -1,11 +1,11 @@
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class Player : MonoBehaviour
 {
     [SerializeField]float moveSpeed = 5f;
     Rigidbody2D Rb;
     Vector2 movementInput;
-    int starCount = 0;
+    [SerializeField] int starCount = 0;
     void Start()
     {
         Rb = GetComponent<Rigidbody2D>();
